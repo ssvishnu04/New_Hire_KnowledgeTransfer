@@ -14,6 +14,10 @@ New hires can ask questions such as:
 
 The system retrieves the most relevant internal knowledge assets, generates a grounded answer, and recommends the best source for further learning.
 
+## Application Preview
+
+![Knowledge Transfer AI Assistant](data/image/KTapp_screenshot.jpg)
+
 ## Problem Statement
 
 In many organizations, knowledge transfer depends on senior employees or managers spending significant time repeatedly explaining the same onboarding processes. This project reduces that manual effort by allowing new hires to self-serve answers from a company knowledge base.
