@@ -9,11 +9,12 @@ sys.path.append(str(BASE_DIR / "app"))
 from rag_pipeline import KnowledgeTransferRAG  # noqa: E402
 from source_formatter import format_recommended_source  # noqa: E402
 from admin_utils import rebuild_knowledge_pipeline  # noqa: E402
-from file_upload_utils import save_uploaded_file  # noqa: E402
+from file_upload_utils import save_uploaded_file, list_raw_files, delete_raw_file  # noqa: E402
+
 
 st.set_page_config(
     page_title="Knowledge Transfer AI Assistant",
-    page_icon="",
+    page_icon="📚",
     layout="wide"
 )
 
@@ -34,7 +35,6 @@ def choose_best_source(sources: list[dict]) -> dict | None:
     if not sources:
         return None
 
-    # Prefer PDFs for policy/process style answers when available.
     for source in sources:
         if source.get("source_type") == "pdf":
             return source
@@ -69,7 +69,7 @@ def render_source_card(source: dict, index: int):
 
 
 def main():
-    st.title("Knowledge Transfer AI Assistant")
+    st.title("📚 Knowledge Transfer AI Assistant")
     st.caption(
         "Help new hires learn faster by retrieving answers from company PDFs, notes, and video transcripts."
     )
@@ -182,10 +182,45 @@ def main():
                     st.error(f"Failed to save file: {str(e)}")
 
         st.markdown("---")
+        st.subheader("Manage Existing Knowledge Files")
+
+        existing_files = list_raw_files()
+
+        file_category_label = st.selectbox(
+            "Choose category to manage",
+            ["PDF", "Note", "Video Transcript"],
+            key="manage_category"
+        )
+
+        if file_category_label == "PDF":
+            manage_category = "pdf"
+        elif file_category_label == "Note":
+            manage_category = "note"
+        else:
+            manage_category = "video_transcript"
+
+        current_files = existing_files.get(manage_category, [])
+
+        if current_files:
+            selected_file_to_delete = st.selectbox(
+                "Select a file to delete",
+                current_files,
+                key="file_to_delete"
+            )
+
+            if st.button("Delete Selected File"):
+                message = delete_raw_file(manage_category, selected_file_to_delete)
+                st.success(message)
+                st.info("Now click 'Rebuild Knowledge Pipeline' to remove it from search results.")
+                st.rerun()
+        else:
+            st.caption("No files found in this category.")
+
+        st.markdown("---")
         st.subheader("Rebuild Knowledge Base")
 
         st.write(
-            "After uploading new files, click the button below to rebuild the processed knowledge base, "
+            "After uploading or deleting files, click the button below to rebuild the processed knowledge base, "
             "embeddings, and vector index."
         )
 
