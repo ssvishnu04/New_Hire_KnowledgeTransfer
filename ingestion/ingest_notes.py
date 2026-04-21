@@ -9,32 +9,52 @@ NOTES_DIR = BASE_DIR / "data" / "raw" / "notes"
 OUTPUT_FILE = BASE_DIR / "data" / "processed" / "note_chunks.json"
 
 
-def extract_note_chunks():
-    all_chunks = []
+def extract_note_chunks() -> list[dict]:
+    all_chunks: list[dict] = []
 
-    note_files = list(NOTES_DIR.glob("*.*"))
+    NOTES_DIR.mkdir(parents=True, exist_ok=True)
+
+    note_files = []
+    note_files.extend(NOTES_DIR.glob("*.txt"))
+    note_files.extend(NOTES_DIR.glob("*.md"))
+
+    note_files = list(note_files)
+
+    if not note_files:
+        print("No note files found. Skipping note ingestion.")
+        return []
+
     for note_file in note_files:
-        text = note_file.read_text(encoding="utf-8").strip()
-        if not text:
-            continue
+        print(f"Processing Note: {note_file.name}")
 
-        chunks = chunk_text(text, chunk_size=500, overlap=100)
+        try:
+            text = note_file.read_text(encoding="utf-8").strip()
 
-        for idx, chunk in enumerate(chunks):
-            all_chunks.append({
-                "source_type": "note",
-                "file_name": note_file.name,
-                "title": note_file.stem,
-                "page_number": None,
-                "chunk_id": f"{note_file.stem}_c{idx}",
-                "text": chunk,
-            })
+            if not text:
+                continue
+
+            chunks = chunk_text(text, chunk_size=500, overlap=100)
+
+            for idx, chunk in enumerate(chunks):
+                all_chunks.append({
+                    "source_type": "note",
+                    "file_name": note_file.name,
+                    "title": note_file.stem,
+                    "page_number": None,
+                    "timestamp_markers": [],
+                    "chunk_id": f"{note_file.stem}_c{idx}",
+                    "text": chunk,
+                })
+
+        except Exception as e:
+            print(f"Failed to process note {note_file.name}: {str(e)}")
 
     return all_chunks
 
 
-def main():
+def main() -> None:
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+
     chunks = extract_note_chunks()
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
