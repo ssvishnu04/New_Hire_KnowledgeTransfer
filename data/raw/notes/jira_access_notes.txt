@@ -1,0 +1,15 @@
+JIRA ACCESS REQUEST NOTES
+
+New hires must request JIRA access within the first two business days.
+Steps:
+1. Open the IT Service Portal.
+2. Select 'Engineering Tools Access'.
+3. Choose JIRA Standard Access.
+4. Add your manager name and employee ID.
+5. Submit the request.
+
+Typical approval time: 4 to 8 business hours.
+
+If access is blocked after approval:
+- Contact #it-support on Slack
+- Raise a Priority 3 incident
