@@ -13,7 +13,7 @@ from file_upload_utils import save_uploaded_file, list_raw_files, delete_raw_fil
 
 
 st.set_page_config(
-    page_title="Knowledge Transfer AI Assistant",
+    page_title="New Hire Onboarding Assistant",
     page_icon="",
     layout="wide"
 )
