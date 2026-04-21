@@ -1,0 +1,10 @@
+TEAM_INTRO_VIDEO_TRANSCRIPT
+
+[00:00] Welcome to the engineering onboarding session.
+[00:18] In your first week, focus on system access, team introductions, and environment setup.
+[00:42] You should complete VPN setup, email activation, Slack onboarding, and JIRA access.
+[01:10] To request repository access, open the internal access portal and search for GitHub Enterprise permissions.
+[01:40] For development environment setup, install Python, VS Code, Docker Desktop, and the internal CLI tools.
+[02:10] Expense reimbursement requests are submitted through the Finance Portal under 'Employee Expenses'.
+[02:40] Managers approve expense reports before Finance reviews them.
+[03:00] If you are blocked, contact your onboarding buddy or the team manager.
