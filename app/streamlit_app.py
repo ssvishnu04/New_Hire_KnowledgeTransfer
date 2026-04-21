@@ -14,7 +14,7 @@ from file_upload_utils import save_uploaded_file, list_raw_files, delete_raw_fil
 
 st.set_page_config(
     page_title="Knowledge Transfer AI Assistant",
-    page_icon="📚",
+    page_icon="",
     layout="wide"
 )
 
@@ -69,7 +69,7 @@ def render_source_card(source: dict, index: int):
 
 
 def main():
-    st.title("📚 Knowledge Transfer AI Assistant")
+    st.title("Knowledge Transfer AI Assistant")
     st.caption(
         "Help new hires learn faster by retrieving answers from company PDFs, notes, and video transcripts."
     )
