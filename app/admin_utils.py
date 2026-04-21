@@ -4,17 +4,34 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROCESSED_DIR = BASE_DIR / "data" / "processed"
+
+PROCESSED_FILES_TO_CLEAR = [
+    PROCESSED_DIR / "pdf_chunks.json",
+    PROCESSED_DIR / "note_chunks.json",
+    PROCESSED_DIR / "video_chunks.json",
+    PROCESSED_DIR / "knowledge_base.json",
+    PROCESSED_DIR / "chunk_metadata.json",
+    PROCESSED_DIR / "chunk_embeddings.npy",
+    PROCESSED_DIR / "knowledge_index.faiss",
+]
+
+
+def clear_processed_artifacts() -> list[str]:
+    messages = []
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+
+    for file_path in PROCESSED_FILES_TO_CLEAR:
+        if file_path.exists():
+            file_path.unlink()
+            messages.append(f"Deleted: {file_path}")
+        else:
+            messages.append(f"Not found: {file_path}")
+
+    return messages
 
 
 def run_script(script_path: str) -> tuple[bool, str]:
-    """
-    Runs a Python script from the project root and returns:
-    (success, combined_output)
-
-    Rules:
-    - Missing source files (for example, no PDFs) are treated as a valid non-failure state
-    - Any real execution failure returns success=False
-    """
     try:
         result = subprocess.run(
             [sys.executable, script_path],
@@ -42,14 +59,11 @@ def run_script(script_path: str) -> tuple[bool, str]:
 
 
 def rebuild_knowledge_pipeline() -> list[tuple[str, bool, str]]:
-    """
-    Rebuilds the full knowledge pipeline.
+    results: list[tuple[str, bool, str]] = []
 
-    Important behavior:
-    - If one ingestion source has no files, pipeline continues
-    - Only true script failures are treated as failures
-    - Pipeline does NOT stop for harmless "no files found" conditions
-    """
+    cleanup_messages = clear_processed_artifacts()
+    results.append(("Clear Processed Artifacts", True, "\n".join(cleanup_messages)))
+
     steps = [
         ("Ingest PDFs", "ingestion/ingest_pdfs.py"),
         ("Ingest Notes", "ingestion/ingest_notes.py"),
@@ -59,7 +73,6 @@ def rebuild_knowledge_pipeline() -> list[tuple[str, bool, str]]:
         ("Build FAISS Index", "retrieval/build_faiss_index.py"),
     ]
 
-    results: list[tuple[str, bool, str]] = []
     stop_pipeline = False
 
     for step_name, script_path in steps:
