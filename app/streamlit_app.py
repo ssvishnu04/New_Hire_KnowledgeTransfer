@@ -69,7 +69,7 @@ def render_source_card(source: dict, index: int):
 
 
 def main():
-    st.title("📚 Knowledge Transfer AI Assistant")
+    st.title("Knowledge Transfer AI Assistant")
     st.caption(
         "Help new hires learn faster by retrieving answers from company PDFs, notes, and video transcripts."
     )
