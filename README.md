@@ -16,6 +16,8 @@ The system retrieves the most relevant internal knowledge assets, generates a gr
 
 ## Application Preview
 
+https://newhire-knowledge-transfer.streamlit.app/
+
 ![Knowledge Transfer AI Assistant](data/image/KTapp_screenshot.jpg)
 
 ## Problem Statement
