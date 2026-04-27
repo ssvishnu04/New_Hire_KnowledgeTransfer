@@ -1,6 +1,13 @@
-# Knowledge Transfer AI Assistant
+# AI Onboarding Assistant — RAG-Based Knowledge Transfer System
 
-A retrieval-augmented GenAI assistant that helps new hires learn from enterprise knowledge sources such as PDFs, notes, and video transcripts instead of relying entirely on manual trainer-led knowledge transfer.
+A GenAI-powered onboarding assistant that helps new hires retrieve answers from company PDFs, notes, and video transcripts using Retrieval-Augmented Generation (RAG), semantic search, and LLM-based grounded response generation.
+
+## Live Demo
+
+https://newhire-knowledge-transfer.streamlit.app/
+## Application Preview
+
+![Knowledge Transfer AI Assistant](data/image/KTapp_screenshot.jpg)
 
 ## Overview
 
@@ -14,15 +21,9 @@ New hires can ask questions such as:
 
 The system retrieves the most relevant internal knowledge assets, generates a grounded answer, and recommends the best source for further learning.
 
-## Application Preview
-
-https://newhire-knowledge-transfer.streamlit.app/
-
-![Knowledge Transfer AI Assistant](data/image/KTapp_screenshot.jpg)
-
 ## Problem Statement
-
-In many organizations, knowledge transfer depends on senior employees or managers spending significant time repeatedly explaining the same onboarding processes. This project reduces that manual effort by allowing new hires to self-serve answers from a company knowledge base.
+In many organizations, knowledge transfer depends on senior employees or managers spending significant time repeatedly explaining the same onboarding processes.
+This project reduces that manual effort by enabling new hires to **self-serve answers** from a centralized knowledge base.
 
 ## Solution
 
@@ -47,6 +48,16 @@ The assistant uses a Retrieval-Augmented Generation (RAG) architecture:
 - Rebuild pipeline from the UI
 - Example company knowledge base for testing
 
+## Tech Stack
+
+- Python  
+- Streamlit  
+- Sentence Transformers  
+- FAISS (Vector Search)  
+- Groq API (LLM inference)  
+- PyMuPDF (PDF parsing)  
+- RAG Architecture  
+
 ## Architecture
 
 ```text
@@ -66,7 +77,7 @@ Company PDFs / Notes / Video Transcripts
                 ↓
       Grounded Answer + Source Recommendation
 
-
+```
 ## License
 
 This project is for educational purpose only
